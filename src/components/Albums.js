@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchAlbumsRequested } from "../redux/actions/albums";
-import { Grid, Card, Container, Image } from "semantic-ui-react";
+import { Card, Container, Image, Loader } from "semantic-ui-react";
 const placeholderImage =
   "https://react.semantic-ui.com/images/wireframe/image.png";
 
@@ -16,7 +16,7 @@ const Albums = ({ albums, fetchAlbumsRequested }) => {
   }
 
   if (albums.loading) {
-    return <div> loading... </div>;
+    return <Loader />;
   }
 
   return (

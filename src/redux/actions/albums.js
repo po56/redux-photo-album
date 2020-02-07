@@ -10,7 +10,6 @@ export const fetchAlbumsRequested = () => async dispatch => {
 
   try {
     const albums = await getAllAlbums();
-    console.log(albums);
     dispatch({ type: FETCHED_ALBUMS_SUCCESS, payload: albums.data });
   } catch (e) {
     dispatch({ type: FETCHED_ALBUMS_ERROR, payload: e });
