@@ -13,11 +13,15 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case FETCHED_PHOTOS_SUCCESS:
-      return { ...defaultState, data: action.payload };
+      return {
+        ...state,
+        data: [...state.data, ...action.payload],
+        loading: false
+      };
     case FETCHED_PHOTOS_REQUEST:
-      return { ...defaultState, loading: true };
+      return { ...state, loading: true };
     case FETCHED_PHOTOS_ERROR:
-      return { ...defaultState, error: action.payload };
+      return { ...state, error: action.payload, loading: false };
     default:
       return state;
   }

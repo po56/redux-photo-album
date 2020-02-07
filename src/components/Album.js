@@ -1,15 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, createRef } from "react";
 import { connect } from "react-redux";
 import { fetchedPhotosRequest } from "../redux/actions/photos";
-import { Loader, Card, Image, Container } from "semantic-ui-react";
+import {
+  Loader,
+  Card,
+  Image,
+  Container,
+  Button,
+  Segment,
+  Grid,
+  Visibility
+} from "semantic-ui-react";
 
 const Album = ({ match, fetchedPhotosRequest, photos }) => {
   const { albumId } = match.params;
   const { loading, error, data } = photos;
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetchedPhotosRequest(albumId);
-  }, [albumId, fetchedPhotosRequest]);
+    fetchedPhotosRequest(albumId, page);
+  }, [albumId, fetchedPhotosRequest, page]);
 
   if (loading) {
     return <Loader />;
@@ -17,16 +27,25 @@ const Album = ({ match, fetchedPhotosRequest, photos }) => {
 
   return (
     <Container>
-      <Card.Group itemsPerRow={4}>
-        {data.map(photo => (
-          <Card key={photo.id}>
-            <Image src={photo.url} wrapped />
-            <Card.Content>
-              <Card.Description>{photo.title}</Card.Description>
-            </Card.Content>
-          </Card>
-        ))}
-      </Card.Group>
+      <Grid>
+        <Grid.Row>
+          <Card.Group itemsPerRow={4}>
+            {data.map(photo => (
+              <Card key={photo.id}>
+                <Image src={photo.url} wrapped />
+                <Card.Content>
+                  <Card.Description>{photo.title}</Card.Description>
+                </Card.Content>
+              </Card>
+            ))}
+          </Card.Group>
+        </Grid.Row>
+        <Grid.Row>
+          <Button basic fluid onClick={() => setPage(page + 1)}>
+            Load More
+          </Button>
+        </Grid.Row>
+      </Grid>
     </Container>
   );
 };
